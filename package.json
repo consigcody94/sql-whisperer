@@ -1,0 +1,67 @@
+{
+  "name": "sql-whisperer",
+  "version": "1.0.0",
+  "description": "🔮 Natural language to SQL with deep database introspection - PostgreSQL, MySQL, SQLite MCP server",
+  "main": "dist/index.js",
+  "type": "module",
+  "bin": {
+    "sql-whisperer": "dist/mcp-server.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/mcp-server.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "sql",
+    "database",
+    "postgresql",
+    "mysql",
+    "sqlite",
+    "mcp",
+    "natural-language",
+    "text-to-sql",
+    "claude",
+    "ai",
+    "query-builder"
+  ],
+  "author": "consigcody94",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/consigcody94/sql-whisperer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/consigcody94/sql-whisperer/issues"
+  },
+  "homepage": "https://github.com/consigcody94/sql-whisperer#readme",
+  "dependencies": {
+    "pg": "^8.11.3",
+    "mysql2": "^3.6.5",
+    "better-sqlite3": "^9.2.2"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.8",
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.10.6",
+    "@types/pg": "^8.10.9",
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@typescript-eslint/parser": "^6.17.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.2",
+    "jest": "^29.7.0",
+    "prettier": "^3.1.1",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
