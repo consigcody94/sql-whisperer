@@ -6,151 +6,234 @@
     <title>SQL Whisperer - Natural Language to SQL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/editor/editor.main.css">
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .float-animation { animation: float 3s ease-in-out infinite; }
+        .glow-animation { animation: glow 2s ease-in-out infinite; }
+        .slide-in { animation: slideIn 0.6s ease-out forwards; }
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .code-block {
+            background: #1e1e1e;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
 </head>
-<body class="bg-gradient-to-br from-purple-50 to-pink-100 min-h-screen">
-    <div class="container mx-auto px-4 py-8 max-w-7xl">
+<body class="min-h-screen relative overflow-x-hidden">
+    <!-- Animated Background Elements -->
+    <div class="fixed inset-0 pointer-events-none opacity-20">
+        <div class="absolute top-10 left-10 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl float-animation"></div>
+        <div class="absolute top-40 right-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl float-animation" style="animation-delay: 2s;"></div>
+        <div class="absolute bottom-20 left-1/2 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl float-animation" style="animation-delay: 4s;"></div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 max-w-7xl relative z-10">
         <!-- Header -->
-        <div class="text-center mb-12">
-            <h1 class="text-6xl font-bold text-gray-900 mb-4">
-                🔮 SQL Whisperer
+        <div class="text-center mb-16 slide-in">
+            <div class="inline-block mb-6">
+                <div class="text-8xl mb-4 float-animation">🔮</div>
+            </div>
+            <h1 class="text-7xl font-black text-white mb-6 tracking-tight">
+                SQL Whisperer
             </h1>
-            <p class="text-2xl text-gray-600 mb-6">
-                Natural Language to SQL - Powered by AI
+            <p class="text-3xl text-white/90 mb-8 font-light">
+                Transform Natural Language into Perfect SQL
             </p>
             <div class="flex justify-center gap-4">
                 <a href="https://github.com/consigcody94/sql-whisperer"
-                   class="bg-gray-900 text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition">
-                    ⭐ View on GitHub
+                   class="group bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-full hover:bg-white/30 transition-all duration-300 font-semibold flex items-center gap-2 glow-animation">
+                    <span class="text-2xl">⭐</span> Star on GitHub
                 </a>
                 <a href="#demo"
-                   class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition">
-                    Try Live Demo
+                   class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-full hover:from-blue-600 hover:to-purple-700 transition-all duration-300 font-semibold shadow-2xl transform hover:scale-105">
+                    Try Live Demo →
                 </a>
             </div>
         </div>
 
         <!-- Features -->
-        <div class="grid md:grid-cols-4 gap-6 mb-12">
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <div class="text-4xl mb-3">🗄️</div>
-                <h3 class="text-xl font-bold mb-2">Multi-DB Support</h3>
-                <p class="text-gray-600">PostgreSQL, MySQL, SQLite</p>
+        <div class="grid md:grid-cols-4 gap-6 mb-16 slide-in" style="animation-delay: 0.2s;">
+            <div class="glass rounded-2xl p-6 hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-2">
+                <div class="text-5xl mb-4">🗄️</div>
+                <h3 class="text-xl font-bold text-white mb-2">Multi-Database</h3>
+                <p class="text-white/80">PostgreSQL, MySQL, SQLite</p>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <div class="text-4xl mb-3">🔍</div>
-                <h3 class="text-xl font-bold mb-2">Schema Discovery</h3>
-                <p class="text-gray-600">Auto-detect tables & columns</p>
+            <div class="glass rounded-2xl p-6 hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-2">
+                <div class="text-5xl mb-4">🔍</div>
+                <h3 class="text-xl font-bold text-white mb-2">Auto-Discovery</h3>
+                <p class="text-white/80">Smart schema detection</p>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <div class="text-4xl mb-3">⚡</div>
-                <h3 class="text-xl font-bold mb-2">Instant Results</h3>
-                <p class="text-gray-600">Execute queries in browser</p>
+            <div class="glass rounded-2xl p-6 hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-2">
+                <div class="text-5xl mb-4">⚡</div>
+                <h3 class="text-xl font-bold text-white mb-2">Instant Results</h3>
+                <p class="text-white/80">Execute in browser</p>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <div class="text-4xl mb-3">🎯</div>
-                <h3 class="text-xl font-bold mb-2">Smart Suggestions</h3>
-                <p class="text-gray-600">Context-aware SQL generation</p>
+            <div class="glass rounded-2xl p-6 hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-2">
+                <div class="text-5xl mb-4">🎯</div>
+                <h3 class="text-xl font-bold text-white mb-2">AI-Powered</h3>
+                <p class="text-white/80">Context-aware generation</p>
             </div>
         </div>
 
         <!-- Live Demo -->
-        <div id="demo" class="grid lg:grid-cols-2 gap-6 mb-8">
-            <!-- Left Column: Natural Language Input -->
-            <div class="bg-white rounded-lg shadow-2xl p-6">
-                <h2 class="text-2xl font-bold mb-4">Ask in Plain English</h2>
+        <div id="demo" class="grid lg:grid-cols-2 gap-8 mb-16 slide-in" style="animation-delay: 0.4s;">
+            <!-- Left: Input -->
+            <div class="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-8 transform hover:scale-[1.02] transition-all duration-300">
+                <h2 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
+                    💬 Ask in Plain English
+                </h2>
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Your Question:</label>
-                    <textarea id="nlInput" rows="3"
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-3">Your Question:</label>
+                    <textarea id="nlInput" rows="4"
                               placeholder="e.g., Show me all employees earning more than $50000 ordered by salary"
-                              class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-transparent"></textarea>
+                              class="w-full border-2 border-purple-200 rounded-xl px-6 py-4 focus:ring-4 focus:ring-purple-300 focus:border-purple-500 transition-all text-lg"></textarea>
                 </div>
 
-                <div class="space-y-2 mb-4">
-                    <p class="text-sm font-medium text-gray-700">Try these examples:</p>
+                <div class="space-y-3 mb-6">
+                    <p class="text-sm font-semibold text-gray-700 mb-3">✨ Try These Examples:</p>
                     <button onclick="fillExample('Show me all employees with salary over 50000')"
-                            class="block w-full text-left px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm">
-                        💼 Show all employees with salary &gt; 50000
+                            class="block w-full text-left px-6 py-3 bg-gradient-to-r from-blue-50 to-purple-50 hover:from-blue-100 hover:to-purple-100 rounded-xl text-sm font-medium transition-all transform hover:scale-[1.02]">
+                        💼 High salary employees
                     </button>
                     <button onclick="fillExample('Count how many employees work in each department')"
-                            class="block w-full text-left px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm">
-                        📊 Count employees per department
+                            class="block w-full text-left px-6 py-3 bg-gradient-to-r from-blue-50 to-purple-50 hover:from-blue-100 hover:to-purple-100 rounded-xl text-sm font-medium transition-all transform hover:scale-[1.02]">
+                        📊 Department statistics
                     </button>
                     <button onclick="fillExample('Find the top 5 highest paid employees')"
-                            class="block w-full text-left px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm">
-                        🏆 Top 5 highest paid employees
+                            class="block w-full text-left px-6 py-3 bg-gradient-to-r from-blue-50 to-purple-50 hover:from-blue-100 hover:to-purple-100 rounded-xl text-sm font-medium transition-all transform hover:scale-[1.02]">
+                        🏆 Top earners
                     </button>
                 </div>
 
                 <button onclick="convertToSQL()"
-                        class="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition font-medium text-lg mb-4">
+                        class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all font-bold text-lg shadow-xl transform hover:scale-[1.02]">
                     ✨ Convert to SQL
                 </button>
 
-                <!-- Generated SQL -->
-                <div id="sqlOutput" class="hidden">
-                    <h3 class="text-lg font-bold mb-2">Generated SQL:</h3>
-                    <div class="bg-gray-900 rounded-lg p-4 mb-4">
+                <div id="sqlOutput" class="hidden mt-6">
+                    <h3 class="text-lg font-bold mb-3 text-gray-800">🎯 Generated SQL:</h3>
+                    <div class="code-block p-6 mb-4 shadow-xl">
                         <pre class="text-green-400 text-sm overflow-auto"><code id="sqlCode"></code></pre>
                     </div>
                     <button onclick="executeSQL()"
-                            class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition">
+                            class="w-full bg-gradient-to-r from-green-600 to-teal-600 text-white py-3 rounded-xl hover:from-green-700 hover:to-teal-700 transition-all font-semibold shadow-lg transform hover:scale-[1.02]">
                         ▶️ Execute Query
                     </button>
                 </div>
             </div>
 
-            <!-- Right Column: Results -->
-            <div class="bg-white rounded-lg shadow-2xl p-6">
-                <h2 class="text-2xl font-bold mb-4">Query Results</h2>
+            <!-- Right: Results -->
+            <div class="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-8 transform hover:scale-[1.02] transition-all duration-300">
+                <h2 class="text-3xl font-bold bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent mb-6">
+                    📊 Query Results
+                </h2>
 
                 <div id="results" class="hidden">
-                    <div class="mb-4">
-                        <span class="text-sm text-gray-600">Rows: <span id="rowCount" class="font-bold">0</span></span>
-                        <span class="mx-2">•</span>
-                        <span class="text-sm text-gray-600">Time: <span id="execTime" class="font-bold">0ms</span></span>
+                    <div class="mb-6 flex gap-6 text-sm">
+                        <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full font-semibold">
+                            📝 Rows: <span id="rowCount">0</span>
+                        </span>
+                        <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full font-semibold">
+                            ⚡ Time: <span id="execTime">0ms</span>
+                        </span>
                     </div>
-                    <div class="overflow-auto max-h-96 border border-gray-200 rounded-lg">
+                    <div class="overflow-auto max-h-96 border-2 border-gray-200 rounded-2xl shadow-inner">
                         <table id="resultsTable" class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50 sticky top-0">
+                            <thead class="bg-gradient-to-r from-blue-500 to-purple-500 sticky top-0">
                                 <tr id="resultsHeader"></tr>
                             </thead>
                             <tbody id="resultsBody" class="bg-white divide-y divide-gray-200"></tbody>
                         </table>
                     </div>
                     <button onclick="exportCSV()"
-                            class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                            class="mt-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all font-semibold shadow-lg transform hover:scale-105">
                         📥 Export CSV
                     </button>
                 </div>
 
-                <div id="noResults" class="text-center py-12">
-                    <div class="text-6xl mb-4">📊</div>
-                    <p class="text-gray-500">Run a query to see results here</p>
+                <div id="noResults" class="text-center py-20">
+                    <div class="text-8xl mb-6 float-animation">📊</div>
+                    <p class="text-gray-500 text-xl font-medium">Run a query to see results</p>
                 </div>
 
-                <div id="errorMsg" class="hidden bg-red-50 border border-red-200 rounded-lg p-4 text-red-700"></div>
+                <div id="errorMsg" class="hidden bg-red-50 border-2 border-red-200 rounded-xl p-6 text-red-700 font-medium"></div>
             </div>
         </div>
 
-        <!-- Database Schema -->
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-            <h2 class="text-2xl font-bold mb-4">Sample Database Schema</h2>
-            <div class="grid md:grid-cols-2 gap-6">
-                <div>
-                    <h3 class="font-bold text-lg mb-2">📋 employees</h3>
-                    <ul class="text-sm space-y-1 text-gray-600">
-                        <li>• id (INTEGER)</li>
-                        <li>• name (TEXT)</li>
-                        <li>• department (TEXT)</li>
-                        <li>• salary (REAL)</li>
-                        <li>• hire_date (TEXT)</li>
+        <!-- Schema Info -->
+        <div class="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-8 slide-in" style="animation-delay: 0.6s;">
+            <h2 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
+                🗄️ Sample Database Schema
+            </h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-2xl">
+                    <h3 class="font-bold text-2xl mb-4 text-gray-800">📋 employees</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                            <code class="bg-white px-3 py-1 rounded-lg font-mono text-sm">id INTEGER</code>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
+                            <code class="bg-white px-3 py-1 rounded-lg font-mono text-sm">name TEXT</code>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-pink-500 rounded-full"></span>
+                            <code class="bg-white px-3 py-1 rounded-lg font-mono text-sm">department TEXT</code>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-indigo-500 rounded-full"></span>
+                            <code class="bg-white px-3 py-1 rounded-lg font-mono text-sm">salary REAL</code>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-teal-500 rounded-full"></span>
+                            <code class="bg-white px-3 py-1 rounded-lg font-mono text-sm">hire_date TEXT</code>
+                        </li>
                     </ul>
                 </div>
-                <div>
-                    <h3 class="font-bold text-lg mb-2">Sample Data Included</h3>
-                    <p class="text-sm text-gray-600">10 employees across Engineering, Sales, HR, and Marketing departments with varying salaries</p>
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-2xl">
+                    <h3 class="font-bold text-2xl mb-4 text-gray-800">📝 Sample Data</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        10 employees across Engineering, Sales, HR, and Marketing departments with varying salaries from $52,000 to $95,000
+                    </p>
+                    <div class="mt-4 flex gap-2 flex-wrap">
+                        <span class="bg-white px-3 py-1 rounded-full text-sm font-medium text-gray-700">Engineering</span>
+                        <span class="bg-white px-3 py-1 rounded-full text-sm font-medium text-gray-700">Sales</span>
+                        <span class="bg-white px-3 py-1 rounded-full text-sm font-medium text-gray-700">HR</span>
+                        <span class="bg-white px-3 py-1 rounded-full text-sm font-medium text-gray-700">Marketing</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -159,15 +242,11 @@
     <script>
         let db = null;
 
-        // Initialize SQL.js database
         async function initDB() {
             const SQL = await initSqlJs({
                 locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
             });
-
             db = new SQL.Database();
-
-            // Create sample schema
             db.run(`
                 CREATE TABLE employees (
                     id INTEGER PRIMARY KEY,
@@ -176,7 +255,6 @@
                     salary REAL,
                     hire_date TEXT
                 );
-
                 INSERT INTO employees VALUES
                     (1, 'Alice Johnson', 'Engineering', 75000, '2020-01-15'),
                     (2, 'Bob Smith', 'Sales', 65000, '2019-03-22'),
@@ -190,7 +268,6 @@
                     (10, 'Jack Taylor', 'HR', 52000, '2020-12-03');
             `);
         }
-
         initDB();
 
         function fillExample(text) {
@@ -199,17 +276,12 @@
 
         function convertToSQL() {
             const nl = document.getElementById('nlInput').value.trim();
-            if (!nl) {
-                alert('Please enter a question first!');
-                return;
-            }
+            if (!nl) { alert('Please enter a question first!'); return; }
 
-            // Simple NL to SQL conversion (in production, use AI model)
             let sql = '';
             const lower = nl.toLowerCase();
-
             if (lower.includes('all employees') || lower.includes('show')) {
-                if (lower.includes('salary') && lower.includes('over') || lower.includes('more than')) {
+                if (lower.includes('salary') && (lower.includes('over') || lower.includes('more than'))) {
                     const amount = lower.match(/(\d+)/)?.[0] || '50000';
                     sql = `SELECT * FROM employees WHERE salary > ${amount} ORDER BY salary DESC;`;
                 } else {
@@ -220,12 +292,9 @@
             } else if (lower.includes('top') || lower.includes('highest')) {
                 const num = lower.match(/(\d+)/)?.[0] || '5';
                 sql = `SELECT * FROM employees ORDER BY salary DESC LIMIT ${num};`;
-            } else if (lower.includes('average') || lower.includes('avg')) {
-                sql = 'SELECT department, AVG(salary) as avg_salary FROM employees GROUP BY department;';
             } else {
                 sql = 'SELECT * FROM employees;';
             }
-
             document.getElementById('sqlCode').textContent = sql;
             document.getElementById('sqlOutput').classList.remove('hidden');
         }
@@ -233,21 +302,16 @@
         function executeSQL() {
             const sql = document.getElementById('sqlCode').textContent;
             const start = performance.now();
-
             try {
                 const results = db.exec(sql);
                 const time = Math.round(performance.now() - start);
-
                 if (results.length === 0) {
                     document.getElementById('errorMsg').textContent = 'Query returned no results';
                     document.getElementById('errorMsg').classList.remove('hidden');
                     document.getElementById('results').classList.add('hidden');
                     return;
                 }
-
-                const result = results[0];
-                displayResults(result, time);
-
+                displayResults(results[0], time);
                 document.getElementById('errorMsg').classList.add('hidden');
                 document.getElementById('results').classList.remove('hidden');
                 document.getElementById('noResults').classList.add('hidden');
@@ -260,22 +324,17 @@
 
         function displayResults(result, time) {
             const { columns, values } = result;
-
             document.getElementById('rowCount').textContent = values.length;
             document.getElementById('execTime').textContent = time + 'ms';
-
-            // Build header
             const header = document.getElementById('resultsHeader');
             header.innerHTML = columns.map(col =>
-                `<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">${col}</th>`
+                `<th class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">${col}</th>`
             ).join('');
-
-            // Build body
             const body = document.getElementById('resultsBody');
             body.innerHTML = values.map(row =>
-                `<tr class="hover:bg-gray-50">
+                `<tr class="hover:bg-blue-50 transition-colors">
                     ${row.map(cell =>
-                        `<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${cell}</td>`
+                        `<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">${cell}</td>`
                     ).join('')}
                 </tr>`
             ).join('');
@@ -284,13 +343,10 @@
         function exportCSV() {
             const sql = document.getElementById('sqlCode').textContent;
             const results = db.exec(sql);
-
             if (results.length === 0) return;
-
             const { columns, values } = results[0];
             let csv = columns.join(',') + '\n';
             csv += values.map(row => row.join(',')).join('\n');
-
             const blob = new Blob([csv], { type: 'text/csv' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
