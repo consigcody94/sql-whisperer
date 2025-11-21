@@ -2,6 +2,8 @@
 
 **Natural language to SQL with deep database introspection - A Model Context Protocol (MCP) server for PostgreSQL, MySQL, and SQLite**
 
+**🎯 [Try Live Demo](https://consigcody94.github.io/sql-whisperer/)** | [GitHub](https://github.com/consigcody94/sql-whisperer)
+
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-16%2B-green.svg)](https://nodejs.org/)
